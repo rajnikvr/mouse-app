@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  StatusBar,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -18,6 +19,7 @@ export default function App() {
 
   // Load saved IP on startup
   useEffect(() => {
+    StatusBar.setHidden(true, "fade");
     setIp(null); // force asking every time
   }, []);
 
