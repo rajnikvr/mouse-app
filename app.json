@@ -4,7 +4,7 @@
     "slug": "mouse",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.jpg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/icon.jpg",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.rajnikvr.mouse"
     },
     "web": {
       "favicon": "./assets/icon.jpg"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "521ad968-73dc-4b1b-8bcb-60b03a53b171"
+      }
     }
   }
 }
