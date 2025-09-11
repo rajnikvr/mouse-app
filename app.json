@@ -21,7 +21,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.rajnikvr.mouse"
+      "package": "com.rajnikvr.mouse",
+      "usesCleartextTraffic": true
     },
     "web": {
       "favicon": "./assets/icon.png"
