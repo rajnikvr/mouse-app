@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   StatusBar,
+  Alert
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -27,15 +28,31 @@ export default function App() {
   useEffect(() => {
     if (!ip) return;
 
-    socket = new WebSocket(`ws://${ip}:3030`);
+    try {
+      socket = new WebSocket(`ws://${ip}:3030`);
 
-    socket.onopen = () => setConnected(true);
-    socket.onclose = () => setConnected(false);
+      socket.onopen = () => {
+        setConnected(true);
+        Alert.alert("Connected", `Connected to ws://${ip}:3030`);
+      };
+
+      socket.onclose = (e) => {
+        setConnected(false);
+        Alert.alert("Disconnected", JSON.stringify(e));
+      };
+
+      socket.onerror = (err) => {
+        Alert.alert("WebSocket Error", JSON.stringify(err));
+      };
+    } catch (e) {
+      Alert.alert("Exception", String(e));
+    }
 
     return () => {
       if (socket) socket.close();
     };
   }, [ip]);
+
 
   const SPEED_FACTOR = 0.3;
 
@@ -62,15 +79,28 @@ export default function App() {
   });
 
   const send = (msg: object) => {
-    if (connected && socket) socket.send(JSON.stringify(msg));
+    try {
+      if (connected && socket) {
+        socket.send(JSON.stringify(msg));
+      } else {
+        Alert.alert("Error", "Not connected to server");
+      }
+    } catch (e) {
+      Alert.alert("Send Error", String(e));
+    }
   };
 
   // Save IP and connect
   const saveIpAndConnect = async () => {
-    if (!inputIp) return;
+    if (!inputIp) {
+      Alert.alert("Error", "Please enter a valid IP");
+      return;
+    }
     await AsyncStorage.setItem("server_ip", inputIp);
+    Alert.alert("Saved", `IP set to ${inputIp}`);
     setIp(inputIp);
   };
+
 
   // If no IP yet, show input screen
   if (!ip) {
