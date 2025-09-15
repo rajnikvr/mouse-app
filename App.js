@@ -106,7 +106,7 @@ export default function App() {
   if (!ip) {
     return (
       <View style={styles.setupContainer}>
-        <Text style={styles.setupText}>Enter your PC IP Address:</Text>
+        <Text style={styles.setupText}>Enter your NGROK IP Address:</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter you NGROK IP here"
