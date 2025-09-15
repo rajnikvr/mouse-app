@@ -109,7 +109,7 @@ export default function App() {
         <Text style={styles.setupText}>Enter your PC IP Address:</Text>
         <TextInput
           style={styles.input}
-          placeholder="e.g. 192.168.0.118"
+          placeholder="Enter you NGROK IP here"
           placeholderTextColor="#777"
           value={inputIp}
           onChangeText={setInputIp}
