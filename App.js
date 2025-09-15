@@ -29,11 +29,11 @@ export default function App() {
     if (!ip) return;
 
     try {
-      socket = new WebSocket(`ws://${ip}:3030`);
+      socket = new WebSocket(`wss://${ip}`);
 
       socket.onopen = () => {
         setConnected(true);
-        Alert.alert("Connected", `Connected to ws://${ip}:3030`);
+        Alert.alert("Connected", `Connected to wss://${ip}`);
       };
 
       socket.onclose = (e) => {
