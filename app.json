@@ -16,20 +16,19 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.rajnikvr.mouse",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "com.rajnikvr.mouse",
-      "usesCleartextTraffic": true
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "ff5021a6-c9ee-4319-96d3-6a6f3c333080"
+        "projectId": "54c9eb44-ffb9-4509-ba4e-2ec01f19509f"
       }
     }
   }
