@@ -10,6 +10,7 @@ import {
   Alert
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Gyroscope } from "expo-sensors";
 
 let socket: WebSocket | null = null;
 
@@ -237,3 +238,188 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+
+// Gyroscope-based Mouse Controller App
+
+// import React, { useEffect, useRef, useState } from "react";
+// import {
+//   View,
+//   StyleSheet,
+//   TouchableOpacity,
+//   Text,
+//   StatusBar,
+//   Alert,
+// } from "react-native";
+// import { Gyroscope } from "expo-sensors";
+
+// let socket = null;
+
+// export default function App() {
+//   const [connected, setConnected] = useState(false);
+//   const [gyroEnabled, setGyroEnabled] = useState(true);
+//   const [calibration, setCalibration] = useState({ x: 0, y: 0 });
+
+//   const SPEED = 18;
+//   const DEAD_ZONE = 0.03;
+
+//   // 🔌 Connect WebSocket (change IP!)
+//   useEffect(() => {
+//     StatusBar.setHidden(true, "fade");
+
+//     socket = new WebSocket("wss://14280fea0142.ngrok-free.app");
+
+//     socket.onopen = () => {
+//       setConnected(true);
+//       Alert.alert("Connected", "Connected to PC");
+//     };
+
+//     socket.onclose = () => {
+//       setConnected(false);
+//       Alert.alert("Disconnected");
+//     };
+
+//     socket.onerror = (e) => {
+//       console.log(e);
+//       Alert.alert("Socket Error");
+//     };
+
+//     return () => {
+//       if (socket) socket.close();
+//     };
+//   }, []);
+
+//   // 🎯 Gyroscope mouse control
+//   useEffect(() => {
+//     if (!connected || !gyroEnabled) return;
+
+//     Gyroscope.setUpdateInterval(16); // ~60 FPS
+
+//     const sub = Gyroscope.addListener(({ x, y }) => {
+//       if (!socket) return;
+
+//       const adjX = x - calibration.x;
+//       const adjY = y - calibration.y;
+
+//       if (
+//         Math.abs(adjX) < DEAD_ZONE &&
+//         Math.abs(adjY) < DEAD_ZONE
+//       ) {
+//         return;
+//       }
+
+//       socket.send(
+//         JSON.stringify({
+//           type: "move",
+//           dx: adjY * SPEED,
+//           dy: adjX * SPEED,
+//         })
+//       );
+//     });
+
+//     return () => sub.remove();
+//   }, [connected, gyroEnabled, calibration]);
+
+//   // 🎯 Manual calibration
+//   const calibrate = () => {
+//     Gyroscope.setUpdateInterval(16);
+
+//     const sub = Gyroscope.addListener(({ x, y }) => {
+//       setCalibration({ x, y });
+//       Alert.alert("Calibrated", "Phone zero position saved");
+//       sub.remove();
+//     });
+//   };
+
+//   // 🖱️ Click helpers
+//   const send = (msg) => {
+//     if (!connected || !socket) return;
+//     socket.send(JSON.stringify(msg));
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Gyro Mouse Controller</Text>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => setGyroEnabled(!gyroEnabled)}
+//       >
+//         <Text style={styles.text}>
+//           {gyroEnabled ? "Disable Gyro" : "Enable Gyro"}
+//         </Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity style={styles.button} onPress={calibrate}>
+//         <Text style={styles.text}>Calibrate</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => send({ type: "click" })}
+//       >
+//         <Text style={styles.text}>Left Click</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => send({ type: "rightClick" })}
+//       >
+//         <Text style={styles.text}>Right Click</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => send({ type: "scroll", amount: -100 })}
+//       >
+//         <Text style={styles.text}>Scroll Up</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         style={styles.button}
+//         onPress={() => send({ type: "scroll", amount: 100 })}
+//       >
+//         <Text style={styles.text}>Scroll Down</Text>
+//       </TouchableOpacity>
+
+//       <Text style={styles.status}>
+//         Status: {connected ? "Connected" : "Disconnected"}
+//       </Text>
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#000",
+//     justifyContent: "center",
+//     alignItems: "center",
+//     padding: 20,
+//   },
+//   title: {
+//     color: "#0f0",
+//     fontSize: 24,
+//     marginBottom: 30,
+//     fontWeight: "bold",
+//   },
+//   button: {
+//     backgroundColor: "#222",
+//     paddingVertical: 14,
+//     paddingHorizontal: 30,
+//     borderRadius: 12,
+//     marginVertical: 8,
+//     width: "80%",
+//     alignItems: "center",
+//   },
+//   text: {
+//     color: "#fff",
+//     fontSize: 18,
+//   },
+//   status: {
+//     marginTop: 20,
+//     color: "#aaa",
+//     fontSize: 16,
+//   },
+// });
+
